@@ -1,0 +1,166 @@
+#!/usr/bin/env ruby
+
+LIB_PATH = File.join(File.dirname(File.expand_path('.', __dir__)), 'lib')
+$LOAD_PATH.unshift(LIB_PATH) unless $LOAD_PATH.include?(LIB_PATH)
+
+require 'gli'
+require 'csv'
+require 'version'
+require 'search_json'
+
+include GLI::App
+
+DATA_PATH = File.join(LIB_PATH, 'data')
+program_desc 'A JSON searching application'
+
+version Zensearch::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+desc 'Give the global option to run the command with '\
+"all files - #{SearchJson::FILES.join(', ')}"
+
+switch [:g, :global]
+
+desc 'The JSON file you would like to seach ' \
+  "The allowed values are #{SearchJson::FILES.join(', ')}"
+arg_name 'filename'
+flag [:f, :file]
+
+desc 'search the JSON file specified in the file option based on a field.'
+# long_desc ''
+arg :search_field, :multiple
+arg :search_value, :multiple
+command :search do |c|
+  c.action do |global_options, _options, args|
+    field = split(args[0])
+    value = split(args[1])
+
+    if count_mismatch(field, value)
+      message = 'Seach field and seach value count mismatch.'
+      raise ZensearchError, message
+    end
+
+    if global_options[:global]
+      SearchJson::FILES.each do |file|
+        result = search_in_file(file, field, value)
+        STDOUT.puts result
+      end
+    else
+      result = search_in_file(global_options[:file], field, value)
+      STDOUT.puts result
+    end
+  end
+end
+
+desc 'list the availalbe fields to search' \
+  'in the JSON file specified in the file option'
+
+command :list do |c|
+  c.action do |global_options, _options, _args|
+    if global_options[:global]
+      SearchJson::FILES.each do |file|
+        result = list_from_file(file)
+        STDOUT.puts result
+      end
+    else
+      result = list_from_file(global_options[:file])
+      STDOUT.puts result
+    end
+  end
+end
+
+# validating commands before they run
+pre do |global_options, command, _options, args|
+  global = global_options[:global]
+  file = global_options[:file]
+  cmd = command.name
+
+  # validate file option
+  unless global
+    if file.nil?
+      message = 'file option not specified in -file/-f. To list searchable '\
+      'fields from all the files, use -g/-global option'
+      raise ZensearchError, message
+    elsif !SearchJson::FILES.include?(file)
+      message = 'Invalid -file/-f option. Choose from ' +
+                SearchJson::FILES.join(', ')
+      raise ZensearchError, message
+    end
+  end
+
+  # validate searchable field input
+  if cmd == :search
+    field = split(args[0])
+    if global
+      unless validate_input_fields(field)
+        message = "#{field.join(',')} are not valid combination of search " \
+          "fields in #{SearchJson::FILES.join(', ')}. To view a list "\
+         'of all the searchable fields run the list command with -g option '\
+         'or run the list command with a specific file with -f option'
+        raise ZensearchError, message
+      end
+    else
+      unless validate_field_in_file(file, field)
+        message = "#{field.join(',')} are not valid combination of search "\
+          "field in #{file}. To view a list of "\
+          'searchable fields run the list command'
+        raise ZensearchError, message
+      end
+    end
+  end
+  true
+end
+
+post do |global, command, options, args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  if exception.is_a? ZensearchError
+    STDERR.puts exception.message
+    STDERR.puts "Type 'zenseach help' for details"
+    false # skip default error handling
+  else
+    true # trigger default error handling
+  end
+end
+
+ZensearchError = Class.new(StandardError)
+
+def search_in_file(file, field, value)
+  SearchJson.new(full_path(file), field, value).perform_search
+end
+
+def list_from_file(file)
+  SearchJson.new(full_path(file)).perform_list
+end
+
+def count_mismatch(field, value)
+  field.count > 1 && field.count != value.count
+end
+
+def validate_input_fields(field)
+  SearchJson::FILES.any? do |file|
+    validate_field_in_file(file, field)
+  end
+end
+
+def validate_field_in_file(file, field)
+  file_path = full_path(file)
+  SearchJson.new(file_path).validate_field(field)
+end
+
+def split(str)
+  params = CSV.parse_line(str)
+  params.nil? ? [nil] : params
+end
+
+def full_path(file)
+  File.join(DATA_PATH, "#{file}.json")
+end
+
+exit run(ARGV)

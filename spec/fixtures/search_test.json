@@ -1,0 +1,53 @@
+[
+  {
+    "fieldA": 1,
+    "fieldB": "One ring to rule them all.",
+    "fieldC": [
+      "Mordor",
+      "Shire"
+    ],
+    "fieldH": true,
+    "fieldG": "Fly you fools"
+  },
+  {
+    "fieldA": 2,
+    "fieldB": "Dracarys",
+    "fieldC": [
+      "Lannister",
+      "Stark",
+      "Baratheon",
+      "Targaryen"
+    ],
+    "fieldD": "ghost",
+    "fieldH": false,
+    "fieldG": "Winter is coming"
+  },
+  {
+    "fieldA": 2,
+    "fieldB": "1985",
+    "fieldD": "McFly",
+    "fieldE": false,
+    "fieldF": "Nobody calls me chicken!"
+  },
+  {
+    "fieldA": 6,
+    "fieldB": "Scooby Doo",
+    "fieldC": [
+      "Shaggy",
+      "Fred",
+      "Velma"
+    ]
+  },
+  {
+    "fieldA": 10,
+    "fieldB": "1985",
+    "fieldD": "2015",
+    "fieldE": false,
+    "fieldF": "Great Scott!"
+  },
+  {
+    "fieldB": "Demagorgon",
+    "fieldF": "Grrrrrrrrr"
+  }
+
+]
