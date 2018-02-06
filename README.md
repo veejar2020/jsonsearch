@@ -13,7 +13,7 @@
 
 - git clone
 - Move to the project folder and run `bundle`. Note that bundler needs to be installed for this.
-- Add the project's bin path to the PATH environment variable. Eg.: `PATH=$PATH:/Users/rajeevthiruvengadam/projects/zensearch/bin`
+- Add the project's bin path to the PATH environment variable. Eg.: `export PATH=$PATH:/Users/rajeevthiruvengadam/projects/zensearch/bin`
 
 ## Usage
 

@@ -79,8 +79,8 @@ pre do |global_options, command, _options, args|
   # validate file option
   unless global
     if file.nil?
-      message = 'file option not specified in -file/-f. To list searchable '\
-      'fields from all the files, use -g/-global option'
+      message = 'file option not specified in -f/--file. To list '\
+      'searchable fields from all the files, use -g/--global option'
       raise ZensearchError, message
     elsif !SearchJson::FILES.include?(file)
       message = 'Invalid -file/-f option. Choose from ' +
@@ -94,16 +94,16 @@ pre do |global_options, command, _options, args|
     field = split(args[0])
     if global
       unless validate_input_fields(field)
-        message = "#{field.join(',')} are not valid combination of search " \
-          "fields in #{SearchJson::FILES.join(', ')}. To view a list "\
+        message = "#{field.join(',')} - search field validation failed " \
+          "in #{SearchJson::FILES.join(', ')}. To view a list "\
          'of all the searchable fields run the list command with -g option '\
          'or run the list command with a specific file with -f option'
         raise ZensearchError, message
       end
     else
       unless validate_field_in_file(file, field)
-        message = "#{field.join(',')} are not valid combination of search "\
-          "field in #{file}. To view a list of "\
+        message = "#{field.join(',')} - search field validation failed "\
+          "in #{file}. To view a list of "\
           'searchable fields run the list command'
         raise ZensearchError, message
       end
