@@ -3,17 +3,18 @@ class SearchJson
   require 'json'
   require 'set'
   require 'print_table'
-  attr_accessor :obj_list, :file_name, :field, :value
+  attr_accessor :file_name, :obj_list, :field, :value
 
-  DATA_DIR = File.join(File.dirname(File.expand_path('.', __dir__)), 'lib', 'data', '*')
+  DATA_DIR = File.join(File.dirname(File.expand_path('.', __dir__)),
+                       'lib', 'data', '*')
+
   FILES = Dir.glob(DATA_DIR).map do |file_path|
     File.basename(file_path, '.json')
   end
 
   def initialize(file, field = nil, value = nil)
-    json_file = File.read(file)
     @file_name = File.basename(file, '.json')
-    @obj_list = JSON.parse(json_file)
+    @obj_list = JSON.parse(File.read(file))
     @field = field
     @value = value
   end
@@ -29,6 +30,7 @@ class SearchJson
     PrintTable.tableize(uniq_fields, file_name)
   end
 
+  # filter list over each pair of field - value
   def filter_obj_list
     field.each_with_index do |search_field, index|
       filter_items(search_field, value[index])
@@ -39,6 +41,7 @@ class SearchJson
     obj_list << [message]
   end
 
+  # filter hash list by matching key value
   def filter_items(key, value)
     value = value.to_s # to convert nil to ""
     obj_list.reject! do |obj|
