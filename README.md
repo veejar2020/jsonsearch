@@ -215,19 +215,19 @@ $zensearch -f users search _id 1 | grep name
 |   name            |   Francisca Rasmussen
 ```
 
-I have also designed this solution to handle any JSON file added dynamically apart from the 3 given files. All new JSON file should be put in the data folder.
+I have also designed this solution to handle any JSON file added dynamically apart from the 3 given files. All new JSON files should be put in the data folder.
 
 ### Extended fuctionality
 
 I have added 2 extended fuctionalities:
-- Global search using `-g` option
+- Global search and list using `-g` option
 - Multi-condition search (example and usage given above)
 
 
 ### Validations and Error handling
 
 I have done validation and error hanling on
-- the command format (easily handled using GLI's methods)
+- the command format (handled using GLI's methods)
 - the command input Eg. search field validation, seach field and search value count mismatch in case of multi parameter search
 - the command output Eg. handling empty results
 
@@ -239,11 +239,11 @@ I have done validation and error hanling on
 
 ### Code Quality
 
-I have used Rubocop as the linter tool to improve code readability.
+I have used Rubocop to improve code quality.
 
 ### Testing
 
-I have used RSpec for unit testing. Test cases should be under spec/search_json_spec.rb
+I have used RSpec for unit testing. Test cases and fixtures are under the spec folder
 
 
 
