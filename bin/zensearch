@@ -5,7 +5,6 @@ $LOAD_PATH.unshift(LIB_PATH) unless $LOAD_PATH.include?(LIB_PATH)
 
 require 'gli'
 require 'csv'
-require 'version'
 require 'search_json'
 
 include GLI::App
@@ -13,7 +12,7 @@ include GLI::App
 DATA_PATH = File.join(LIB_PATH, 'data')
 program_desc 'A JSON searching application'
 
-version Zensearch::VERSION
+version '0.0.1'
 
 subcommand_option_handling :normal
 arguments :strict
