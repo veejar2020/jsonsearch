@@ -28,7 +28,6 @@ arg_name 'filename'
 flag [:f, :file]
 
 desc 'search the JSON file specified in the file option based on a field.'
-# long_desc ''
 arg :search_field, :multiple
 arg :search_value, :multiple
 command :search do |c|
@@ -110,12 +109,6 @@ pre do |global_options, command, _options, args|
     end
   end
   true
-end
-
-post do |global, command, options, args|
-  # Post logic here
-  # Use skips_post before a command to skip this
-  # block on that command only
 end
 
 on_error do |exception|

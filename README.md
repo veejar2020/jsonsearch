@@ -204,3 +204,49 @@ etc
 ```
 
 
+## Notes
+
+### Extensibility
+
+I built this console app using GLI, a DSL for creating Git like command interface. I chose this design instead of the one mentioned in the instruction document as I figured this was better for extensibility. For eg., this design would allow a user to nest commands using pipe operators. If I wanted to just return the name of the user with `_id` as `1`, I would do
+
+```sh
+$zensearch -f users search _id 1 | grep name
+|   name            |   Francisca Rasmussen
+```
+
+I have also designed this solution to handle any JSON file added dynamically apart from the 3 given files. All new JSON file should be put in the data folder.
+
+### Extended fuctionality
+
+I have added 2 extended fuctionalities:
+- Global search using `-g` option
+- Multi-condition search (example and usage given above)
+
+
+### Validations and Error handling
+
+I have done validation and error hanling on
+- the command format (easily handled using GLI's methods)
+- the command input Eg. search field validation, seach field and search value count mismatch in case of multi parameter search
+- the command output Eg. handling empty results
+
+### Structure
+
+- The I/O and validations are handled in the bin/zensearch file using some of GLI's function.
+- The search logic is handled in lib/search_json.rb
+- The printing and formating logic is handled in lib/print_json.rb
+
+### Code Quality
+
+I have used Rubocop as the linter tool to improve code readability.
+
+### Testing
+
+I have used RSpec for unit testing. Test cases should be under spec/search_json_spec.rb
+
+
+
+
+
+
