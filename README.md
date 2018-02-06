@@ -14,6 +14,7 @@
 - git clone
 - Move to the project folder and run `bundle`. Note that bundler needs to be installed for this.
 - Add the project's bin path to the PATH environment variable. Eg.: `export PATH=$PATH:/Users/rajeevthiruvengadam/projects/zensearch/bin`
+- <Optional> To permanently add to PATH (so that this works in new terminal windows), add the bin path to /etc/paths on your mac.
 
 ## Usage
 
