@@ -118,7 +118,6 @@ describe 'search test with multiple paramters' do
   end
 end
 
-
 describe 'format test' do
   it 'should format arrays as rows for output' do
     given = [1, '2', [3, 4]]
