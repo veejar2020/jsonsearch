@@ -4,9 +4,16 @@
 
 ## Installation
 
+### Prerequisites
+
+- ruby
+- bundler
+
+### Steps
+
 - git clone
-- Move to the project folder and run `bundle`
-- Export PATH to the bin directory. Eg.: `PATH=$PATH:/Users/rajeevthiruvengadam/projects/zensearch/bin`
+- Move to the project folder and run `bundle`. Note that bundler needs to be installed for this.
+- Put the project bin path in the PATH variable. Eg.: `PATH=$PATH:/Users/rajeevthiruvengadam/projects/zensearch/bin`
 
 ## Usage
 
